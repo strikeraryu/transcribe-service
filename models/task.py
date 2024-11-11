@@ -1,9 +1,9 @@
 from . import db
 import enum
 
-class Job(db.Model):
+class Task(db.Model):
     class ActionType(enum.Enum):
-        transcribe = "transcribe"
+        TRANSCRIBE = "transcribe"
 
     class Status(enum.Enum):
         QUEUED = 'queued'
@@ -14,7 +14,7 @@ class Job(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     file_name = db.Column(db.String(255), nullable=False)
     status = db.Column(db.Enum(Status), default=Status.QUEUED)
-    action_type = db.Column(db.Enum(ActionType), default=ActionType.transcribe)
+    action_type = db.Column(db.Enum(ActionType), default=ActionType.TRANSCRIBE)
     result = db.Column(db.Text)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, server_default=db.func.now(), onupdate=db.func.now())
