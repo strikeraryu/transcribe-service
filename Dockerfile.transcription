@@ -20,30 +20,16 @@ WORKDIR /app
 RUN python3 -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
-# Install PyTorch with CUDA support
-RUN pip install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
-
 # Install Python dependencies
 COPY helpers /app/helpers
 COPY requirements.txt /app/
-
-# Add additional required packages to requirements.txt if not present
-RUN pip install --no-cache-dir -r requirements.txt \
-    transformers \
-    accelerate \
-    pydub \
-    redis
-
-# Install insanely-fast-whisper
+RUN pip install --no-cache-dir -r requirements.txt
 RUN pipx install insanely-fast-whisper
 
 # Create necessary directories and set permissions
 RUN mkdir -p /app/task_data
 RUN useradd -m worker
-RUN chown -R worker:worker /app /opt/venv /root/.local
+RUN chown -R worker:worker /app /opt/venv
 
 # Switch to non-root user
 USER worker
-
-# Add a healthcheck command
-HEALTHCHECK CMD python -c "import torch; assert torch.cuda.is_available()"
