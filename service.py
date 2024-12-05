@@ -1,23 +1,27 @@
+import os
+from dotenv import load_dotenv
+
 from flask import Flask
 from flask_cors import CORS
+from flask_migrate import Migrate
+
 from apis.core import core_bp
 from apis.transcribe import transcribe_bp
-from models import Task, db
-from flask_migrate import Migrate
-import logging
-import os
+from models import db
 from celery_app import init_celery
+
+load_dotenv()
 
 # Setup App
 app = Flask(__name__)
 
 app.config.update(
-    SECRET_KEY='I am a big secret',
-    SQLALCHEMY_DATABASE_URI=os.getenv('DATABASE_URL', 'sqlite:///app.db'),
+    SECRET_KEY=os.getenv('APP_SECRET_KEY'),
+    SQLALCHEMY_DATABASE_URI=os.getenv('DATABASE_URL'),
     MAX_CONTENT_LENGTH=16 * 1024 * 1024,
     MAX_FORM_MEMORY_SIZE=16 * 1024 * 1024,
-    CELERY_BROKER_URL=os.getenv('CELERY_BROKER_URL', 'redis://localhost:6379/0'),
-    CELERY_RESULT_BACKEND=os.getenv('CELERY_RESULT_BACKEND', 'redis://localhost:6379/0'),
+    CELERY_BROKER_URL=os.getenv('CELERY_BROKER_URL'),
+    CELERY_RESULT_BACKEND=os.getenv('CELERY_RESULT_BACKEND'),
     CELERY_TASK_SERIALIZER='json',
     CELERY_RESULT_SERIALIZER='json',
     CELERY_ACCEPT_CONTENT=['json'],
