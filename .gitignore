@@ -11,6 +11,4 @@ tmp/
 env.bak/
 venv.bak/
 
-instance/
-migrations/
 gluetun/
