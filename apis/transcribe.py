@@ -1,11 +1,9 @@
-from flask import Blueprint, request, jsonify, send_from_directory
-from file_manager import FileManager
-from transcriber import Transcriber
+from flask import Blueprint, request, jsonify
+from libs.file_manager import FileManager
+from libs.transcriber import Transcriber
+from tasks.transcribe_task import transcribe_task
 from models import Task, db
-from celery_app.celery_tasks import process_task
 import traceback
-import os
-
 transcribe_bp = Blueprint('transcribe', __name__)
 
 @transcribe_bp.route('/', methods=['POST'])
@@ -24,12 +22,15 @@ def transcribe():
         db.session.commit()
 
         try: 
-
             file_path = Transcriber.audio_file_path(task, audio_file)
             FileManager.upload_file(audio_file, file_path)
 
-            # Queue the task
-            # process_task.apply_async(args=[task.id])
+            task.audio_file = file_path
+            task.status = Task.Status.QUEUED
+            db.session.commit()
+
+            task_id = task.id
+            transcribe_task.delay(task_id)
 
             return jsonify({"success": True, "task_id": task.id}), 200
 

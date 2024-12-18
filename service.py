@@ -1,5 +1,6 @@
 import os
 from dotenv import load_dotenv
+load_dotenv()
 
 from flask import Flask
 from flask_cors import CORS
@@ -9,8 +10,6 @@ from apis.core import core_bp
 from apis.transcribe import transcribe_bp
 from models import db
 from celery_app import init_celery
-
-load_dotenv()
 
 # Setup App
 app = Flask(__name__)
@@ -22,11 +21,6 @@ app.config.update(
     MAX_FORM_MEMORY_SIZE=16 * 1024 * 1024,
     CELERY_BROKER_URL=os.getenv('CELERY_BROKER_URL'),
     CELERY_RESULT_BACKEND=os.getenv('CELERY_RESULT_BACKEND'),
-    CELERY_TASK_SERIALIZER='json',
-    CELERY_RESULT_SERIALIZER='json',
-    CELERY_ACCEPT_CONTENT=['json'],
-    CELERY_TIMEZONE='UTC',
-    CELERY_ENABLE_UTC=True,
 )
 
 db.init_app(app)
