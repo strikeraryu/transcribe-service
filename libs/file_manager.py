@@ -18,11 +18,15 @@ class FileManager():
 
     @classmethod
     def get_file_content(cls, file_key):
-        if not file_key:
-            return None
+        try:
+            if not file_key:
+                return None
 
-        response = cls.s3_client.get_file_obj(file_key)
-        return response['Body'].read().decode('utf-8')
+            response = cls.s3_client.get_file_obj(file_key)
+            return response['Body'].read().decode('utf-8')
+        except Exception as e:
+            print(e)
+            return None
 
     @classmethod
     def download_audio_file(cls, file_key, file_dir):
