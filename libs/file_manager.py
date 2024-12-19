@@ -17,12 +17,12 @@ class FileManager():
             cls.s3_client.upload_file(file, file_path)
 
     @classmethod
-    def get_file_content(cls, filename):
-        if filename is None or not os.path.exists(filename):
+    def get_file_content(cls, file_key):
+        if not file_key:
             return None
 
-        with open(filename, 'rb') as f:
-            return f.read()
+        response = cls.s3_client.get_file_obj(file_key)
+        return response['Body'].read().decode('utf-8')
 
     @classmethod
     def download_audio_file(cls, file_key, file_dir):

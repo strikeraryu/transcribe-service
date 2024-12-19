@@ -1,4 +1,5 @@
 import subprocess
+import json
 import time
 import random
 import os
@@ -83,8 +84,15 @@ class TranscriberModelMock:
         if outcome == 'success':
             # Create a mock transcript file
             transcript_path = command[command.index('--transcript-path') + 1]
+            response = {
+                    "speakers": [],
+                    "chunks": [ { "timestamp": [ 0.0, 4.0 ], "text": " The stale smell of old beer lingers." } ],
+                    "text": " The stale smell of old beer lingers."
+                }
+
             with open(transcript_path, 'w') as f:
-                f.write("This is a mock transcript.")
+                json.dump(response, f)
+
             return MockResponse(stdout="Transcription successful.", stderr="", returncode=0)
 
         elif outcome == 'failure':

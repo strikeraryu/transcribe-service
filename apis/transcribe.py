@@ -72,7 +72,7 @@ def get_task_output(task_id):
         result = Transcriber.get_result(task)
         response = {
             'success': True,
-            'status': task.status,
+            'status': task.status.name,
             'result': result
         }
 

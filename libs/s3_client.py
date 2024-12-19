@@ -25,7 +25,10 @@ class S3Client:
             file_path
         )
 
-
+    def get_file_obj(self, file_key):
+        return self.s3_client.get_object(
+            Bucket=self.bucket_name, Key=file_key
+        )
 
     def download_file(self, file_key, file_path):
             return self.s3_client.download_file(self.bucket_name, file_key, file_path)

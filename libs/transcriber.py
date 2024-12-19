@@ -2,6 +2,8 @@ import os
 import json
 import time
 import shutil
+
+from botocore.parsers import RestJSONParser
 from libs.file_manager import FileManager
 from libs.transcriber_model import TranscriberModel
 from libs.transcriber_model_mock import TranscriberModelMock
@@ -77,6 +79,7 @@ class Transcriber:
     def get_result(cls, task):
         if not task:
             return None
+
         result_file_path = cls.result_file_path(task)
         result = FileManager.get_file_content(result_file_path)
 
