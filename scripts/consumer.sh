@@ -1,3 +1,3 @@
 #!/bin/bash
 
-celery -A service.celery worker --loglevel=INFO --pool threads 
+poetry run celery -A service.celery worker --loglevel=INFO --pool threads 

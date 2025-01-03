@@ -1,3 +1,3 @@
 #!/bin/bash
 
-gunicorn --config gunicorn_config.py service:app;
+poetry run gunicorn --config gunicorn_config.py service:app;
