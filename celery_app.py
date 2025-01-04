@@ -3,9 +3,23 @@ from celery import Celery
 
 celery_app = Celery(
     'celery_app',
+    broker=os.getenv('CELERY_BROKER_URL'),
+    backend=None,
+    task_ignore_result=True,
+    task_default_queue='transcribe-queue',
     task_routes={
-        'tasks.transcribe_tasks.transcribe_task': {'queue': 'default'},
+        'tasks.transcribe_tasks.transcribe_task': {'queue': 'transcribe-queue'},
     },
+    broker_transport_options={
+        'region': os.getenv('AWS_REGION'),
+        'predefined_queues': {
+            'transcribe-queue': {
+                'url': os.getenv('SQS_QUEUE_URL')
+            }
+        },
+        'visibility_timeout': 3600
+    },
+    worker_prefetch_multiplier = 1,
     worker_concurrency=int(os.getenv('CELERY_WORKER_CONCURRENCY', 2))
 )
 
