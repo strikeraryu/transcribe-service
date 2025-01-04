@@ -17,7 +17,7 @@ class TranscriberModel:
         self.language = language
     
     def transcribe(self, audio_file, output_file=None):
-        command = ["pipx", "run", "insanely-fast-whisper"]
+        command = ["insanely-fast-whisper"]
         
         for arg in self.ARGS:
             arg_var = self.ARGS[arg]
