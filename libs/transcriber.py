@@ -33,7 +33,7 @@ class Transcriber:
         success, message = True, ""
 
         if success:
-            transcriber_model = TranscriberModelMock(model=cls.MODEL_NAME)
+            transcriber_model = TranscriberModel(model=cls.MODEL_NAME)
             transcription_result = transcriber_model.transcribe(
                 audio_file=audio_file_path, output_file=os.path.join(file_dir, cls.TRANSCRIPTION_FILE_NAME)
             )

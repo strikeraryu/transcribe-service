@@ -1,5 +1,6 @@
 import subprocess
 import time
+import os
 
 
 class TranscriberModel:
@@ -17,7 +18,9 @@ class TranscriberModel:
         self.language = language
     
     def transcribe(self, audio_file, output_file=None):
-        command = ["insanely-fast-whisper"]
+        wisper_path = os.getenv('WISPER_PATH', '')
+        wisper_command = os.path.join(wisper_path, 'insanely-fast-whisper')
+        command = [wisper_command]
         
         for arg in self.ARGS:
             arg_var = self.ARGS[arg]
