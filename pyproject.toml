@@ -6,7 +6,7 @@ authors = ["AryamaanScaler <aryamaan.jain@scaler.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.9"
 alembic = "1.14.0"
 amqp = "5.3.1"
 async-timeout = "5.0.1"
