@@ -1,5 +1,4 @@
 #!/bin/bash
 
-cd /var/app/current
-chmod +x scripts/setup.sh
+cd /var/app/staging
 source ./scripts/setup.sh
