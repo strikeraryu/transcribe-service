@@ -11,6 +11,7 @@ tmp/
 env.bak/
 venv.bak/
 audio_files/
+infra/
 
 gluetun/
 

@@ -1,19 +1,20 @@
 import os
 from celery import Celery
 
+QUEUE_NAME = os.getenv('QUEUE_NAME', 'transcribe-queue')
 celery_app = Celery(
     'celery_app',
     broker=os.getenv('CELERY_BROKER_URL'),
     backend=None,
     task_ignore_result=True,
-    task_default_queue='transcribe-queue',
+    task_default_queue=QUEUE_NAME,
     task_routes={
-        'tasks.transcribe_tasks.transcribe_task': {'queue': 'transcribe-queue'},
+        'tasks.transcribe_tasks.transcribe_task': {'queue': QUEUE_NAME},
     },
     broker_transport_options={
         'region': os.getenv('AWS_REGION'),
         'predefined_queues': {
-            'transcribe-queue': {
+            QUEUE_NAME: {
                 'url': os.getenv('SQS_QUEUE_URL')
             }
         },
