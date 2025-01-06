@@ -19,3 +19,4 @@ gluetun/
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+load_test_results_*.csv
