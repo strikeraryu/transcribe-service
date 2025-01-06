@@ -218,9 +218,9 @@ class TranscriptionLoadTest:
         return report
 
 async def main():
-    BASE_URL = "http://transcriber-env.eba-mdcyqpuh.us-west-2.elasticbeanstalk.com"
+    BASE_URL = "http://transcriber-service-env.eba-fsnkym9f.us-west-2.elasticbeanstalk.com"
     AUDIO_FILES_DIR = "./audio_files"
-    TOTAL_REQUESTS = 200
+    TOTAL_REQUESTS = 10
     CONCURRENT_REQUESTS = 200
     RATE_LIMIT = 10  # requests per second
     
