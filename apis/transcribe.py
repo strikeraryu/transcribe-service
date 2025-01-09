@@ -22,11 +22,16 @@ def transcribe():
         db.session.commit()
 
         try: 
+            webhook_url = request.form.get('webhook_url')
+            payload = request.form.get('payload')
+
             file_path = Transcriber.audio_file_path(task, audio_file)
             FileManager.upload_file(audio_file, file_path)
 
             task.audio_file = file_path
             task.status = Task.Status.QUEUED
+            task.webhook_url = webhook_url
+            task.payload = payload
             db.session.commit()
 
             task_id = task.id

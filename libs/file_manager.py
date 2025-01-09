@@ -3,7 +3,7 @@ from libs.s3_client import S3Client
 
 class FileManager():
 
-    ALLOWED_EXTENSIONS = {'.mp3', '.wav', '.ogg'}
+    ALLOWED_EXTENSIONS = {'.mp3', '.wav', '.ogg', '.mp4'}
     s3_client = S3Client(
         os.getenv('AWS_REGION'),
         os.getenv('AWS_S3_BUCKET_NAME')
