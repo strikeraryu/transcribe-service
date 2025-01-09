@@ -8,7 +8,7 @@ from models import db
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-@celery_app.task(bind=True, acks_late=True, autoretry_for=(Exception,), max_retries=1, default_retry_delay=10)
+@celery_app.task(bind=True, acks_late=True, autoretry_for=(Exception,), max_retries=5, default_retry_delay=10)
 def transcribe_task(self, task_id):
     logger.debug(f'Starting transcribe_task for task_id: {task_id}')
     task = Task.query.get(task_id)
