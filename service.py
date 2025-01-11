@@ -17,8 +17,8 @@ app = Flask(__name__)
 app.config.update(
     SECRET_KEY=os.getenv('APP_SECRET_KEY'),
     SQLALCHEMY_DATABASE_URI=os.getenv('DATABASE_URL'),
-    MAX_CONTENT_LENGTH=16 * 1024 * 1024,
-    MAX_FORM_MEMORY_SIZE=16 * 1024 * 1024,
+    MAX_CONTENT_LENGTH=50 * 1024 * 1024,
+    MAX_FORM_MEMORY_SIZE=50 * 1024 * 1024,
 )
 
 db.init_app(app)
