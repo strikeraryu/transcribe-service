@@ -24,6 +24,6 @@ class Task(db.Model):
     def trigger_webhook(self):
         try:
             if self.webhook_url and len(self.webhook_url) > 0:
-                requests.get(self.webhook_url, params={"task_id": self.id, "payload": self.payload})
+                requests.post(self.webhook_url, json={"task_id": self.id, "payload": self.payload})
         except Exception as e:
             print(e)
