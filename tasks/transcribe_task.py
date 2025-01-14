@@ -21,7 +21,7 @@ def transcribe_task(self, task_id):
         db.session.commit()
         logger.info(f'Task {task_id} status set to RUNNING.')
         
-        success, message = Transcriber.transcribe(task)
+        success, message = Transcriber.transcribe(task, self.request.retries > 0)
         
         if success:
             task.status = Task.Status.COMPLETED

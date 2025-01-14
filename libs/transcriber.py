@@ -7,15 +7,17 @@ from botocore.parsers import RestJSONParser
 from libs.file_manager import FileManager
 from libs.transcriber_model import TranscriberModel
 from libs.transcriber_model_mock import TranscriberModelMock
+from libs.ffmpeg_client import FfmpegClient
 
 class Transcriber:
 
     BASE_RESOURCE_PATH = "resources/transcribe/"
     MODEL_NAME = "openai/whisper-large-v3-turbo"
     TRANSCRIPTION_FILE_NAME = "transcription.json"
+    AUDIO_FILE_NAME = "audio"
 
     @classmethod
-    def transcribe(cls, task):
+    def transcribe(cls, task, encode_to_mp3=False):
         if not task:
             return [False, "Task not found"]
 
@@ -33,6 +35,14 @@ class Transcriber:
         success, message = True, ""
 
         if success:
+            if encode_to_mp3 and audio_file_path.endswith(".mp4"):
+                new_audio_file_path = os.path.join(file_dir, f"{cls.AUDIO_FILE_NAME}.mp3")
+                success, message = FfmpegClient().encode_to_mp3(audio_file_path, new_audio_file_path)
+                print(f"Encoded to mp3: {success}, {message}")
+
+                if success:
+                    audio_file_path = new_audio_file_path
+
             transcriber_model = TranscriberModel(model=cls.MODEL_NAME)
             transcription_result = transcriber_model.transcribe(
                 audio_file=audio_file_path, output_file=os.path.join(file_dir, cls.TRANSCRIPTION_FILE_NAME)
@@ -62,7 +72,7 @@ class Transcriber:
             return None
 
         _, extension = os.path.splitext(audio_file.filename)
-        file_path = os.path.join(cls.get_task_base_path(task), f"audio{extension}")
+        file_path = os.path.join(cls.get_task_base_path(task), f"{cls.AUDIO_FILE_NAME}{extension}")
 
         return file_path
 
