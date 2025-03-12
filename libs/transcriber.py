@@ -12,7 +12,7 @@ from libs.ffmpeg_client import FfmpegClient
 class Transcriber:
 
     BASE_RESOURCE_PATH = "resources/transcribe/"
-    MODEL_NAME = "openai/whisper-large-v3-turbo"
+    MODEL_NAME = "openai/whisper-large-v3"
     TRANSCRIPTION_FILE_NAME = "transcription.json"
     AUDIO_FILE_NAME = "audio"
 

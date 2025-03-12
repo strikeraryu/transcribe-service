@@ -35,6 +35,7 @@ class TranscriberModel:
 
         command.extend(["--file-name", audio_file])
         command.extend(["--transcript-path", output_file])
+        command.extend(["--task", "translate"])
 
         success, result = False, {}
         
